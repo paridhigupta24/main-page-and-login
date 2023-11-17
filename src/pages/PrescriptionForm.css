@@ -1,0 +1,36 @@
+/* components/PrescriptionForm.css */
+.prescription-form {
+    margin: 20px 0;
+  }
+  
+  .prescription-form h3 {
+    margin-bottom: 10px;
+  }
+  
+  .prescription-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+  }
+  
+  .prescription-form .form-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .prescription-form button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .prescription-form button:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
