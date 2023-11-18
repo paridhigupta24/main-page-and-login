@@ -1,13 +1,34 @@
 // components/Portfolio.js
-import React, { useState } from 'react';
-import Menu from './Menu';
-import Appointments from './Appointments';
+import React, { useState, useEffect } from "react";
+import Menu from "./Menu";
+import Appointments from "./Appointments";
+import axios from "axios";
 
 function Portfolio() {
+  const apiUrl = "http://localhost:3002";
+  const [Feeback, setFeeback] = useState([]);
+  // Example function to get all prescriptions using Axios
+  async function getAllPrescriptions() {
+    try {
+      const response = await axios.get(`${apiUrl}/feedback`);
+      const prescriptions = response.data;
+      setFeeback(prescriptions);
+      console.log(Feeback);
+    } catch (error) {
+      console.error("Error fetching prescriptions:", error.message);
+    }
+  }
   const [expandedDetails, setExpandedDetails] = useState({});
 
   const patients = [
-    { id: 1, name: 'John Doe', contactDetails: '123-456-7890', appointments: [/*...*/] },
+    {
+      id: 1,
+      name: "John Doe",
+      contactDetails: "123-456-7890",
+      appointments: [
+        /*...*/
+      ],
+    },
     // Add more patients as needed
   ];
 
@@ -17,7 +38,9 @@ function Portfolio() {
       [patientId]: !prevDetails[patientId],
     }));
   };
-
+  useEffect(() => {
+    getAllPrescriptions();
+  });
   return (
     <div className="wrapper">
       <Menu />
@@ -40,18 +63,15 @@ function Portfolio() {
             <h2>Appointments</h2>
           </div>
           <div className="row">
-            {patients.map((patient) => (
+            {Feeback.map((patient) => (
               <div
-                key={patient.id}
+                key={patient._id}
                 className="col-12 portfolio-item wow fadeInUp"
                 data-wow-delay="0.1s"
               >
                 <div className="portfolio-warp">
                   <div className="portfolio-text">
-                    <Appointments patient={patient} />   
-                    {expandedDetails[patient.id] && (
-                      <Appointments appointments={patient.appointments} />
-                    )}
+                  <Appointments appointments={patient} />
                   </div>
                 </div>
               </div>
