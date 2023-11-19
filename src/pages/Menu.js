@@ -68,13 +68,12 @@ function Menu() {
               <div className="navbar-nav mr-auto">
                 <Link to="/" className="nav-item nav-link active">Home</Link>
                 <Link to="/about" className="nav-item nav-link">About</Link>
-                <Link to="/DoctorProfile" className="nav-item nav-link">Profile</Link>
-                <Link to="/portfolio" className="nav-item nav-link">My patients</Link>
+                
                 <div className="nav-item dropdown">
                   <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">Sign in/ Sign up</a>
                   <div className="dropdown-menu">
-                    <Link to="/blog" className="dropdown-item">Patient</Link>
-                    <Link to="/single" className="dropdown-item">Doctor</Link>
+                    <Link to="/login" className="dropdown-item">Patient</Link>
+                    <Link to="/login" className="dropdown-item">Doctor</Link>
                   </div>
                 </div>
               </div>
