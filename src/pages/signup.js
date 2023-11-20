@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import './signup.css';
+import "./signup.css";
 
 function Signup() {
   const history = useNavigate();
@@ -12,33 +12,35 @@ function Signup() {
   const [age, setAge] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
+  const [userType, setUserType] = useState("patient"); // Default to patient
 
   async function submit(e) {
     e.preventDefault();
 
     try {
-      await axios
-        .post("http://localhost:8000/signup", {
-          name,
-          email,
-          password,
-          age,
-          phoneNumber,
-          bloodGroup,
-        })
-        .then((res) => {
-          if (res.data === "exist") {
-            alert("User already exists");
-          } else if (res.data === "notexist") {
-            history("/Menu", { state: { id: email } });
-          }
-        })
-        .catch((e) => {
-          alert("Wrong details");
-          console.log(e);
-        });
-    } catch (e) {
-      console.log(e);
+      const response = await axios.post("http://localhost:8000/signup", {
+        name,
+        email,
+        password,
+        age,
+        phoneNumber,
+        bloodGroup,
+        userType,
+      });
+
+      if (response.data === "exist") {
+        alert("User already exists");
+      } else if (response.data === "notexist") {
+        // Redirect based on user type
+        if (userType === "patient") {
+          history("/patientDashboard", { state: { id: email } });
+        } else if (userType === "doctor") {
+          history("/doctorDashboard", { state: { id: email } });
+        }
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      alert("Wrong details");
     }
   }
 
@@ -77,6 +79,29 @@ function Signup() {
           onChange={(e) => setBloodGroup(e.target.value)}
           placeholder="Blood Group"
         />
+
+        {/* Radio buttons for user type */}
+        <div className="radio-container">
+          <label>
+            <input
+              type="radio"
+              value="patient"
+              checked={userType === "patient"}
+              onChange={() => setUserType("patient")}
+            />
+            Patient
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="doctor"
+              checked={userType === "doctor"}
+              onChange={() => setUserType("doctor")}
+            />
+            Doctor
+          </label>
+        </div>
+
         <input type="submit" onClick={submit} />
       </form>
 
